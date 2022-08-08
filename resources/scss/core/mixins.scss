@@ -1,0 +1,548 @@
+//_____________________________________________________
+//                                            FONT FACE
+@mixin font-face($name, $pathNotIncludeExt, $weight: normal, $style: normal) {
+  @font-face {
+    font-family: $name;
+    src: url("#{$pathNotIncludeExt}.woff") format("woff");
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+
+//_____________________________________________________
+//                                            SMOOTHING
+@mixin font-smooth {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+//_____________________________________________________
+//                                          MEDIA QUERY
+@mixin mq($width, $type: min) {
+  @if unitless($width) {
+    $width: $width * 1px;
+  }
+
+  @if $type == max {
+    $width: $width - 1px;
+  }
+
+  @media only screen and (#{$type}-width: $width) {
+    @content;
+  }
+}
+
+@mixin mq-range($widthMin, $widthMax) {
+  @if unitless($widthMin) {
+    $widthMin: $widthMin * 1px;
+  }
+
+  @if unitless($widthMax) {
+    $widthMax: $widthMax * 1px - 1px;
+  }
+
+  @media only screen and (min-width: $widthMin) and (max-width: $widthMax) {
+    @content;
+  }
+}
+
+//_____________________________________________________
+//                                      ABSOLUTE CENTER
+@mixin absolute-center($x: true, $y: true) {
+  @if $x or $y {
+    position: absolute;
+
+    @if $x {
+      left: 50%;
+    }
+
+    @if $y {
+      top: 50%;
+    }
+
+    $transform: false;
+
+    @if $x and $y {
+      $transform: translate(-50%, -50%);
+    } @else if $x {
+      $transform: translateX(-50%);
+    } @else if $y {
+      $transform: translateY(-50%);
+    }
+
+    @if $transform {
+      transform: $transform;
+    }
+  }
+}
+
+@mixin weight-medium {
+  font-weight: 600;
+
+  [lang='zh_HK'] &,
+  [lang='zh_CN'] & {
+    font-weight: 500;
+  }
+}
+
+//_____________________________________________________
+//                                             NO TOUCH
+@mixin no-touch {
+  html.no-touchevents & {
+    @content;
+  }
+}
+
+//_____________________________________________________
+//                                                 SIZE
+@mixin size($width, $height: $width) {
+  @if unitless($width) {
+    $width: $width * 1px;
+  }
+
+  @if unitless($height) {
+    $height: $height * 1px;
+  }
+
+  width: $width;
+  height: $height;
+}
+
+//_____________________________________________________
+//                                                FONTS
+/**** Fonts ****/
+/** attribution **/
+$attribution-font-size: 20px;
+$attribution-line-height: 36px;
+$attribution-font-size-mb: 16px;
+$attribution-line-height-mb: 32px;
+$attribution-letter-spacing: 0;
+$attribution-style: italic;
+$attribution-color: black;
+
+@mixin attribution() {
+  font-size: $attribution-font-size-mb;
+  line-height: $attribution-line-height-mb;
+  letter-spacing: $attribution-letter-spacing;
+  @include weight-medium();
+  font-style: $attribution-style;
+  color: $attribution-color;
+
+  @include mq($screen-md) {
+    font-size: $attribution-font-size;
+    line-height: $attribution-line-height;
+  }
+}
+
+/** body-copy **/
+$body-copy-font-size: 20px;
+$body-copy-letter-spacing: 0;
+$body-copy-line-height: 35px;
+$body-copy-font-weight: 400;
+$body-copy-color: black;
+
+@mixin body-copy() {
+  font-size: $body-copy-font-size;
+  letter-spacing: $body-copy-letter-spacing;
+  line-height: $body-copy-line-height;
+  font-weight: $body-copy-font-weight;
+  color: $body-copy-color;
+}
+/** h1-bold **/
+$h1-bold-font-size: 48px;
+$h1-bold-line-height: 60px;
+$h1-bold-font-size-mb: 36px;
+$h1-bold-line-height-mb: 48px;
+$h1-bold-letter-spacing: 0;
+$h1-bold-font-weight: bold;
+$h1-bold-color: black;
+
+@mixin h1-bold() {
+  font-size: $h1-bold-font-size-mb;
+  line-height: $h1-bold-line-height-mb;
+  letter-spacing: $h1-bold-letter-spacing;
+  font-weight: $h1-bold-font-weight;
+  color: $h1-bold-color;
+
+  @include mq($screen-md) {
+    font-size: $h1-bold-font-size;
+    line-height: $h1-bold-line-height;
+  }
+}
+/** h2-bold **/
+$h2-bold-font-size: 38px;
+$h2-bold-line-height: 48px;
+$h2-bold-font-size-mb: 28px;
+$h2-bold-line-height-mb: 36px;
+$h2-bold-letter-spacing: 0;
+$h2-bold-font-weight: bold;
+$h2-bold-color: black;
+
+@mixin h2-bold() {
+  font-size: $h2-bold-font-size-mb;
+  letter-spacing: $h2-bold-letter-spacing;
+  line-height: $h2-bold-line-height-mb;
+  font-weight: $h2-bold-font-weight;
+  color: $h2-bold-color;
+
+  @include mq($screen-md) {
+    font-size: $h2-bold-font-size;
+    line-height: $h2-bold-line-height;
+  }
+}
+/** h3-bold **/
+$h3-bold-font-size: 30px;
+$h3-bold-line-height: 40px;
+$h3-bold-font-size-mb: 24px;
+$h3-bold-line-height-mb: 32px;
+$h3-bold-letter-spacing: 0;
+$h3-bold-font-weight: 700;
+$h3-bold-color: black;
+
+@mixin h3-bold() {
+  font-size: $h3-bold-font-size-mb;
+  letter-spacing: $h3-bold-letter-spacing;
+  line-height: $h3-bold-line-height-mb;
+  font-weight: $h3-bold-font-weight;
+  color: $h3-bold-color;
+
+  @include mq($screen-md) {
+    font-size: $h3-bold-font-size;
+    line-height: $h3-bold-line-height;
+  }
+}
+/** h4-bold **/
+$h4-bold-font-size: 24px;
+$h4-bold-line-height: 32px;
+$h4-bold-font-size-mb: 20px;
+$h4-bold-line-height-mb: 28px;
+$h4-bold-letter-spacing: 0;
+$h4-bold-font-weight: 700;
+$h4-bold-color: black;
+
+@mixin h4-bold() {
+  font-size: $h4-bold-font-size-mb;
+  letter-spacing: $h4-bold-letter-spacing;
+  line-height: $h4-bold-line-height-mb;
+  font-weight: $h4-bold-font-weight;
+  color: $h4-bold-color;
+
+  @include mq($screen-md) {
+    font-size: $h4-bold-font-size;
+    line-height: $h4-bold-line-height;
+  }
+}
+/** h5-bold **/
+$h5-bold-font-size: 20px;
+$h5-bold-line-height: 28px;
+$h5-bold-font-size-mb: 18px;
+$h5-bold-line-height-mb: 28px;
+$h5-bold-letter-spacing: 0;
+$h5-bold-font-weight: 700;
+$h5-bold-color: black;
+
+@mixin h5-bold() {
+  font-size: $h5-bold-font-size-mb;
+  letter-spacing: $h5-bold-letter-spacing;
+  line-height: $h5-bold-line-height-mb;
+  font-weight: $h5-bold-font-weight;
+  color: $h5-bold-color;
+
+  @include mq($screen-md) {
+    font-size: $h5-bold-font-size;
+    line-height: $h5-bold-line-height;
+  }
+}
+/** body-copy-regular **/
+$body-copy-regular-font-size: 16px;
+$body-copy-regular-line-height: 24px;
+$body-copy-regular-letter-spacing: 0;
+$body-copy-regular-font-weight: normal;
+$body-copy-regular-color: black;
+
+@mixin body-copy-regular() {
+  font-size: $body-copy-regular-font-size;
+  letter-spacing: $body-copy-regular-letter-spacing;
+  line-height: $body-copy-regular-line-height;
+  font-weight: $body-copy-regular-font-weight;
+  color: $body-copy-regular-color;
+}
+
+/** body-copy large **/
+$body-copy-large-regular-font-size: 18px;
+$body-copy-large-regular-line-height: 28px;
+$body-copy-large-regular-letter-spacing: 0;
+$body-copy-large-regular-font-weight: normal;
+$body-copy-large-regular-color: black;
+
+@mixin body-copy-large-regular() {
+  font-size: $body-copy-large-regular-font-size;
+  letter-spacing: $body-copy-large-regular-letter-spacing;
+  line-height: $body-copy-large-regular-line-height;
+  font-weight: $body-copy-large-regular-font-weight;
+  color: $body-copy-large-regular-color;
+}
+
+/** body-copy large light **/
+$body-copy-large-light-font-size: 20px;
+$body-copy-large-light-line-height: 28px;
+$body-copy-large-light-letter-spacing: 0;
+$body-copy-large-light-font-weight: 300;
+$body-copy-large-light-color: black;
+
+@mixin body-copy-large-light() {
+  font-size: $body-copy-large-light-font-size;
+  letter-spacing: $body-copy-large-light-letter-spacing;
+  line-height: $body-copy-large-light-line-height;
+  font-weight: $body-copy-large-light-font-weight;
+  color: $body-copy-large-light-color;
+}
+
+/** body-copy large semi bold **/
+$body-copy-large-semibold-font-size: 18px;
+$body-copy-large-semibold-line-height: 28px;
+$body-copy-large-semibold-letter-spacing: 0;
+$body-copy-large-semibold-color: black;
+
+@mixin body-copy-large-semibold() {
+  font-size: $body-copy-large-semibold-font-size;
+  letter-spacing: $body-copy-large-semibold-letter-spacing;
+  line-height: $body-copy-large-semibold-line-height;
+  @include weight-medium();
+  color: $body-copy-large-semibold-color;
+}
+
+/** eyebrow-normal **/
+$eyebrow-normal-font-size: 20px;
+$eyebrow-normal-line-height: 32px;
+$eyebrow-normal-font-size-mb: 16px;
+$eyebrow-normal-line-height-mb: 26px;
+$eyebrow-normal-letter-spacing: 0;
+$eyebrow-normal-font-weight: bold;
+$eyebrow-normal-color: black;
+
+@mixin eyebrow-normal() {
+  font-size: $eyebrow-normal-font-size-mb;
+  letter-spacing: $eyebrow-normal-letter-spacing;
+  line-height: $eyebrow-normal-line-height-mb;
+  font-weight: $eyebrow-normal-font-weight;
+  color: $eyebrow-normal-color;
+
+  @include mq($screen-md) {
+    font-size: $eyebrow-normal-font-size;
+    line-height: $eyebrow-normal-line-height;
+  }
+}
+
+/** eyebrow small **/
+$eyebrow-small-font-size: 14px;
+$eyebrow-small-line-height: 24px;
+$eyebrow-small-font-size-mb: 12px;
+$eyebrow-small-line-height-mb: 18px;
+$eyebrow-small-letter-spacing: 0;
+$eyebrow-small-color: black;
+
+@mixin eyebrow-small() {
+  font-size: $eyebrow-small-font-size-mb;
+  letter-spacing: $eyebrow-small-letter-spacing;
+  line-height: $eyebrow-small-line-height-mb;
+  @include weight-medium();
+  color: $eyebrow-small-color;
+
+  @include mq($screen-md) {
+    font-size: $eyebrow-small-font-size;
+    line-height: $eyebrow-small-line-height;
+  }
+}
+
+/** primary-link **/
+$primary-link-font-size: 20px;
+$primary-link-line-height: 28px;
+$primary-link-font-size-mb: 18px;
+$primary-link-line-height-mb: 26px;
+$primary-link-letter-spacing: 0;
+$primary-link-color: black;
+
+@mixin primary-link() {
+  font-size: $primary-link-font-size-mb;
+  letter-spacing: $primary-link-letter-spacing;
+  line-height: $primary-link-line-height-mb;
+  @include weight-medium();
+  color: $primary-link-color;
+
+  @include mq($screen-md) {
+    font-size: $primary-link-font-size;
+    line-height: $primary-link-line-height;
+  }
+}
+
+/** secondary-link **/
+$secondary-link-font-size: 16px;
+$secondary-link-line-height: 28px;
+$secondary-link-letter-spacing: 0;
+$secondary-link-color: black;
+
+@mixin secondary-link() {
+  font-size: $secondary-link-font-size;
+  letter-spacing: $secondary-link-letter-spacing;
+  line-height: $secondary-link-line-height;
+  @include weight-medium();
+  color: $secondary-link-color;
+}
+
+/** footer-link **/
+$footer-link-font-size: 12px;
+$footer-link-line-height: 16px;
+$footer-link-letter-spacing: 0;
+$footer-link-color: black;
+
+@mixin footer-link() {
+  font-size: $footer-link-font-size;
+  letter-spacing: $footer-link-letter-spacing;
+  line-height: $footer-link-line-height;
+  @include weight-medium();
+  color: $footer-link-color;
+}
+
+/** download-link **/
+$download-link-font-size: 18px;
+$download-link-line-height: 28px;
+$download-link-line-height-mb: 26px;
+$download-link-letter-spacing: 0;
+$download-link-color: black;
+
+@mixin download-link() {
+  font-size: $download-link-font-size;
+  letter-spacing: $download-link-letter-spacing;
+  line-height: $download-link-line-height;
+  @include weight-medium();
+  color: $download-link-color;
+}
+
+/** label-copy **/
+$label-copy-font-size: 14px;
+$label-copy-line-height: 24px;
+$label-copy-letter-spacing: 0;
+$label-copy-font-weight: bold;
+$label-copy-color: black;
+
+@mixin label-copy() {
+  font-size: $label-copy-font-size;
+  letter-spacing: $label-copy-letter-spacing;
+  line-height: $label-copy-line-height;
+  font-weight: $label-copy-font-weight;
+  color: $label-copy-color;
+}
+
+/** tags-copy **/
+$tags-copy-font-size: 15px;
+$tags-copy-font-size-mb: 14px;
+$tags-copy-line-height: 16px;
+$tags-copy-letter-spacing: 0;
+$tags-copy-style: italic;
+$tags-copy-color: black;
+
+@mixin tags-copy() {
+  font-size: $tags-copy-font-size-mb;
+  letter-spacing: $tags-copy-letter-spacing;
+  line-height: $tags-copy-line-height;
+  @include weight-medium();
+  color: $tags-copy-color;
+  font-style: $tags-copy-style;
+
+  @include mq($screen-md) {
+    font-size: $tags-copy-font-size;
+  }
+}
+
+/** intro-copy **/
+$intro-copy-font-size: 24px;
+$intro-copy-line-height: 38px;
+$intro-copy-font-size-mb: 18px;
+$intro-copy-line-height-mb: 30px;
+$intro-copy-letter-spacing: 0;
+$intro-copy-color: black;
+
+@mixin intro-copy() {
+  font-size: $intro-copy-font-size-mb;
+  line-height: $intro-copy-line-height-mb;
+  letter-spacing: $intro-copy-letter-spacing;
+  @include weight-medium();
+  color: $intro-copy-color;
+
+  @include mq($screen-md) {
+    font-size: $intro-copy-font-size;
+    line-height: $intro-copy-line-height;
+  }
+}
+
+/** semibold-headline **/
+$semibold-headline-font-size: 24px;
+$semibold-headline-line-height: 38px;
+$semibold-headline-font-size-mb: 18px;
+$semibold-headline-line-height-mb: 30px;
+$semibold-headline-letter-spacing: 0;
+$semibold-headline-color: black;
+
+@mixin semibold-headline() {
+  font-size: $semibold-headline-font-size-mb;
+  line-height: $semibold-headline-line-height-mb;
+  letter-spacing: $semibold-headline-letter-spacing;
+  @include weight-medium();
+  color: $semibold-headline-color;
+
+  @include mq($screen-md) {
+    font-size: $semibold-headline-font-size;
+    line-height: $semibold-headline-line-height;
+  }
+}
+
+/** editorial-body-copy **/
+$editorial-body-copy-font-size: 20px;
+$editorial-body-copy-line-height: 35px;
+$editorial-body-copy-font-size-mb: 18px;
+$editorial-body-copy-line-height-mb: 30px;
+$editorial-body-copy-letter-spacing: 0;
+$editorial-body-copy-font-weight: normal;
+$editorial-body-copy-color: black;
+
+@mixin editorial-body-copy() {
+  font-size: $editorial-body-copy-font-size-mb;
+  line-height: $editorial-body-copy-line-height-mb;
+  letter-spacing: $editorial-body-copy-letter-spacing;
+  font-weight: $editorial-body-copy-font-weight;
+  font-style: $editorial-body-copy-font-weight;
+  color: $editorial-body-copy-color;
+
+  @include mq($screen-md) {
+    font-size: $editorial-body-copy-font-size;
+    line-height: $editorial-body-copy-line-height;
+  }
+}
+
+/** quote-bold **/
+$quote-bold-font-size: 32px;
+$quote-bold-line-height: 44px;
+$quote-bold-font-size-mb: 24px;
+$quote-bold-line-height-mb: 34px;
+$quote-bold-letter-spacing: 0;
+$quote-bold-style: italic;
+$quote-bold-color: black;
+
+@mixin quote-bold() {
+  font-size: $quote-bold-font-size-mb;
+  line-height: $quote-bold-line-height-mb;
+  letter-spacing: $quote-bold-letter-spacing;
+  @include weight-medium();
+  font-style: $quote-bold-style;
+  color: $quote-bold-color;
+
+  @include mq($screen-md) {
+    font-size: $quote-bold-font-size;
+    line-height: $quote-bold-line-height;
+  }
+}
+
+@mixin comp-spacing($height) {
+  padding-bottom: rem($height);
+}
